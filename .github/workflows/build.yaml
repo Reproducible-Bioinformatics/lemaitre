@@ -14,9 +14,7 @@ jobs:
       - name: Push To GHCR
         uses: redhat-actions/push-to-registry@v2
         with:
-          tags:
-            - ghcr.io/reproducible-bioinformatics/lemaitre:latest
-            - ghcr.io/reproducible-bioinformatics/lemaitre:${{ github.ref_name }}
+          tags: ghcr.io/reproducible-bioinformatics/lemaitre:latest,ghcr.io/reproducible-bioinformatics/lemaitre:${{ github.ref_name }}
           username: ${{ env.REGISTRY_USER }}
           password: ${{ env.REGISTRY_PASSWORD }}
           extra-args: |
