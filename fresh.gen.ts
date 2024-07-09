@@ -5,6 +5,7 @@
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $api_delete_name_index from "./routes/api/delete/[name]/index.ts";
+import * as $api_upload_index from "./routes/api/upload/index.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $Counter from "./islands/Counter.tsx";
 import * as $FilelistElement from "./islands/FilelistElement.tsx";
@@ -15,6 +16,7 @@ const manifest = {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
     "./routes/api/delete/[name]/index.ts": $api_delete_name_index,
+    "./routes/api/upload/index.tsx": $api_upload_index,
     "./routes/index.tsx": $index,
   },
   islands: {
