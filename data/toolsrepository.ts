@@ -31,7 +31,7 @@ async function readDirectory(directory: string): Promise<Tool[]> {
   return tools;
 }
 
-function isXML(filename: string): boolean {
+export function isXML(filename: string): boolean {
   return filename.split(".").pop()!.toLowerCase() == "xml";
 }
 
