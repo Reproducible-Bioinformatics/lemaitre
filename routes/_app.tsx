@@ -1,5 +1,6 @@
 import { type PageProps } from "$fresh/server.ts";
 import Navbar from "../components/Navbar.tsx";
+import { GIT_REVISION } from "../env.ts";
 
 export default function App({ Component }: PageProps) {
   return (
@@ -10,9 +11,12 @@ export default function App({ Component }: PageProps) {
         <title>lemaitre</title>
         <link rel="stylesheet" href="/styles.css" />
       </head>
-      <body>
+      <body className="flex flex-col">
         <Navbar />
         <Component />
+        <footer className="max-w-prose mx-auto w-full px-2 py-2">
+          Version: <span className="font-mono">{GIT_REVISION}</span>
+        </footer>
       </body>
     </html>
   );
