@@ -1,5 +1,5 @@
 name = reproducible-bioinformatics/lemaitre
-build-arg := $(shell git rev-parse --short HEAD)
+build-arg := $(shell git describe --exact-match --tags 2> /dev/null || git rev-parse --short HEAD)
 
 build:
 	docker build \
