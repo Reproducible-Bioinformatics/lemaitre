@@ -1,16 +1,9 @@
-# Fresh project
+# Lemaitre
 
-Your new Fresh project is ready to go. You can follow the Fresh "Getting
-Started" guide here: https://fresh.deno.dev/docs/getting-started
-
-### Usage
-
-Make sure to install Deno: https://deno.land/manual/getting_started/installation
-
-Then start the project:
+Upload Galaxy Tools to your installation.
 
 ```
-deno task start
+docker run -p 80:8000  \ 
+  -v /srv/galaxy/server/tools/custom:/srv/galaxy/server/tools/custom \
+  reproducible-bioinformatics/lemaitre:latest
 ```
-
-This will watch the project directory and restart as necessary.
