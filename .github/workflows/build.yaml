@@ -8,6 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Test
+      - name: Build Docker
+        id: build
         run: |
-          make build
+          make build | tee log.txt
+          image_name=$(tail -n1 log.txt)
+          echo "image_name=$image_name" >> $GITHUB_OUTPUT
+      - name: Log in to registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Push image
+        run: |
+          docker push ghcr.io/${{ steps.build.outputs.image_name }}
