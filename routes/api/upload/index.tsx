@@ -3,6 +3,7 @@ import { JSX } from "preact";
 import { isXML } from "../../../data/toolsrepository.ts";
 import { join } from "$std/path/join.ts";
 import { TOOL_DIR } from "../../../env.ts";
+import { Head } from "$fresh/runtime.ts";
 
 export const handler: Handlers = {
   async POST(req, ctx) {
@@ -42,18 +43,23 @@ export default function index(props: PageProps<Props>) {
     [Status.err]: <XIcon />,
   };
   return (
-    <div className="max-w-prose mx-auto w-full px-2 flex flex-col gap-8 min-h-screen">
-      <main className="mt-8">
-        {StatusIcon[props.data?.status ?? Status.warn]}
-        <p>{message}</p>
-      </main>
-      <a
-        href="/"
-        className="bg-green-800 font-bold p-2 text-white rounded-md inline-flex self-end"
-      >
-        Go Home
-      </a>
-    </div>
+    <>
+      <Head>
+        <meta http-equiv="refresh" content="3;url=/" />
+      </Head>
+      <div className="max-w-prose mx-auto w-full px-2 flex flex-col gap-8 min-h-screen">
+        <main className="mt-8">
+          {StatusIcon[props.data?.status ?? Status.warn]}
+          <p>{message}</p>
+        </main>
+        <a
+          href="/"
+          className="bg-green-800 font-bold p-2 text-white rounded-md inline-flex self-end"
+        >
+          Go Home
+        </a>
+      </div>
+    </>
   );
 }
 
