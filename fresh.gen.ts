@@ -7,7 +7,6 @@ import * as $_app from "./routes/_app.tsx";
 import * as $api_delete_name_index from "./routes/api/delete/[name]/index.ts";
 import * as $api_upload_index from "./routes/api/upload/index.tsx";
 import * as $index from "./routes/index.tsx";
-import * as $Counter from "./islands/Counter.tsx";
 import * as $FilelistElement from "./islands/FilelistElement.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
@@ -20,7 +19,6 @@ const manifest = {
     "./routes/index.tsx": $index,
   },
   islands: {
-    "./islands/Counter.tsx": $Counter,
     "./islands/FilelistElement.tsx": $FilelistElement,
   },
   baseUrl: import.meta.url,
