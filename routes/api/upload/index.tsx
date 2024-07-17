@@ -1,9 +1,10 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { JSX } from "preact";
-import { isXML } from "../../../data/toolsrepository.ts";
+import { isXML, toolRepository } from "../../../data/toolsrepository.ts";
 import { join } from "$std/path/join.ts";
 import { TOOL_DIR } from "../../../env.ts";
 import { Head } from "$fresh/runtime.ts";
+import { configurationRepository } from "../../../data/configurationRepository.ts";
 
 export const handler: Handlers = {
   async POST(req, ctx) {
@@ -19,7 +20,11 @@ export const handler: Handlers = {
         status: Status.warn,
       });
     }
-    await Deno.writeTextFile(join(TOOL_DIR, name), await file.text());
+    await Deno.writeTextFile(join(TOOL_DIR, name), await file.text()).then(
+      () => {
+        configurationRepository(toolRepository).update();
+      },
+    );
     return ctx.render({ message: `${name} uploaded.`, status: Status.ok });
   },
 };
