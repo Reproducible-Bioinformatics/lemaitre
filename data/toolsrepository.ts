@@ -1,7 +1,7 @@
 import { join } from "$std/path/join.ts";
 import { TOOL_DIR } from "../env.ts";
 
-interface ToolRepository {
+export interface ToolRepository {
   list: () => Promise<Tool[]>;
   delete: (filename: string) => Promise<void>;
 }
