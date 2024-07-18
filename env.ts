@@ -5,4 +5,9 @@ export const TOOL_DIR = resolve(
     "/srv/galaxy/server/tools/custom",
 );
 
+export const TOOL_CONF = resolve(
+  Deno.env.get("TOOL_CONF") ||
+    "/srv/galaxy/server/tools/custom/tool_conf.xml",
+);
+
 export const GIT_REVISION = Deno.env.get("DENO_DEPLOYMENT_ID") || "unknown";
