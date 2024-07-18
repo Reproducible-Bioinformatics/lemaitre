@@ -2,12 +2,20 @@ import { Handlers, PageProps } from "$fresh/server.ts";
 import { JSX } from "preact";
 import { isXML, toolRepository } from "../../../data/toolsrepository.ts";
 import { join } from "$std/path/join.ts";
-import { TOOL_DIR } from "../../../env.ts";
+import { TOOL_CONF, TOOL_DIR } from "../../../env.ts";
 import { Head } from "$fresh/runtime.ts";
-import { configurationRepository } from "../../../data/configurationRepository.ts";
+import {
+  configurationRepository,
+  fileConfigurationManager,
+} from "../../../data/configurationRepository.ts";
 
 export const handler: Handlers = {
   async POST(req, ctx) {
+    const cfgRepository = configurationRepository(
+      toolRepository,
+      fileConfigurationManager(TOOL_CONF),
+    );
+
     const form = await req.formData();
     const file = form.get("tool-file") as File;
     if (!file) {
@@ -22,7 +30,7 @@ export const handler: Handlers = {
     }
     await Deno.writeTextFile(join(TOOL_DIR, name), await file.text()).then(
       () => {
-        configurationRepository(toolRepository).update();
+        cfgRepository.update();
       },
     );
     return ctx.render({ message: `${name} uploaded.`, status: Status.ok });
