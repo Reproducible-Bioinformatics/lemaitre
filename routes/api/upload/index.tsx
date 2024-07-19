@@ -8,6 +8,7 @@ import {
   configurationRepository,
   fileConfigurationManager,
 } from "../../../data/configurationRepository.ts";
+import { Commands, namedPipe } from "../../../data/namedPipe.ts";
 
 export const handler: Handlers = {
   async POST(req, ctx) {
@@ -29,8 +30,9 @@ export const handler: Handlers = {
       });
     }
     await Deno.writeTextFile(join(TOOL_DIR, name), await file.text()).then(
-      () => {
+      async () => {
         cfgRepository.update();
+        await namedPipe().send(Commands.restart);
       },
     );
     return ctx.render({ message: `${name} uploaded.`, status: Status.ok });
