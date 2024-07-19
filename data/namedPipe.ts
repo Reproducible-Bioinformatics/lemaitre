@@ -1,10 +1,12 @@
-enum commands {
+import { COMMAND_PIPE } from "../env.ts";
+
+export enum Commands {
   restart = "restart",
 }
 
 export const namedPipe = () => {
-  const ctrl = pipeWriter("./test");
-  const send = async (command: commands) => {
+  const ctrl = pipeWriter(COMMAND_PIPE);
+  const send = async (command: Commands) => {
     await ctrl.writeToPipe(command);
   };
   return {
