@@ -22,7 +22,7 @@ export const fileConfigurationManager = (
   const read = async (): Promise<Configuration> => {
     return await parse_xml(filename).catch(
       (error) => {
-        throw error;
+        console.log(error);
       },
     ) as Configuration;
   };
