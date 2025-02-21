@@ -47,6 +47,10 @@ export const configurationRepository = (
   ): Configuration {
     const customSection: SectionEntity = generateSection(toolList);
 
+    if (!Array.isArray(configuration.toolbox.section)) {
+      configuration.toolbox.section = [];
+    }
+
     configuration.toolbox.section = (configuration.toolbox.section ?? [])
       .filter((item) => item["@id"] !== customSection["@id"]);
 
