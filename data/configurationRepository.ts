@@ -20,18 +20,15 @@ export const fileConfigurationManager = (
   filename: string,
 ): ConfigurationManager => {
   const read = async (): Promise<Configuration> => {
-    return await parse_xml(filename).catch(
-      (error) => {
-        throw error;
-      },
-    ) as Configuration;
+    return await parse_xml(filename);
   };
 
   const write = async (configuration: Configuration) => {
-    await Deno.writeTextFile(
-      filename,
-      stringify(configuration),
-    );
+    const xmlString = stringify(configuration);
+    if (!xmlString || typeof xmlString !== "string") {
+      throw new Error("Failed to stringify XML configuration.");
+    }
+    await Deno.writeTextFile(filename, xmlString);
   };
 
   return {
@@ -50,15 +47,10 @@ export const configurationRepository = (
   ): Configuration {
     const customSection: SectionEntity = generateSection(toolList);
 
-    if (!configuration.toolbox.section) {
-      configuration.toolbox.section = [];
-    }
+    configuration.toolbox.section = (configuration.toolbox.section ?? [])
+      .filter((item) => item["@id"] !== customSection["@id"]);
 
-    configuration.toolbox.section = configuration.toolbox.section!.filter((
-      item,
-    ) => item["@id"] != customSection["@id"]);
-
-    configuration.toolbox.section!.push(customSection);
+    configuration.toolbox.section.push(customSection);
     return configuration;
   }
 
@@ -70,13 +62,14 @@ export const configurationRepository = (
     return {
       "@id": id,
       "@name": name,
-      tool: toolList.map((tool) => {
-        return {
+      tool: toolList.length > 0
+        ? toolList.map((tool) => ({
           "@file": join(TOOL_DIR, tool.name),
-        };
-      }) as [ToolEntry],
+        }))
+        : undefined,
     };
   }
+
   return {
     update: async () => {
       const xmldoc = await configurationManager.read();
@@ -100,10 +93,18 @@ export interface Toolbox {
 }
 
 async function parse_xml(filename: string): Promise<Configuration> {
-  const text_file = await Deno.readTextFile(filename).catch((error) => {
+  try {
+    const text_file = await Deno.readTextFile(filename);
+    return parse(text_file) as Configuration;
+  } catch (error) {
+    if (error instanceof Deno.errors.NotFound) {
+      console.warn(
+        `Configuration file not found: ${filename}. Creating a new one.`,
+      );
+      return { toolbox: {} } as Configuration;
+    }
     throw error;
-  });
-  return parse(text_file) as Configuration;
+  }
 }
 
 export interface SectionEntity {
