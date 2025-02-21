@@ -7,7 +7,11 @@ export enum Commands {
 export const namedPipe = () => {
   const ctrl = pipeWriter(COMMAND_PIPE);
   const send = async (command: Commands) => {
-    await ctrl.writeToPipe(command);
+    try {
+      await ctrl.writeToPipe(command);
+    } catch (err) {
+      console.log(err);
+    }
   };
   return {
     send,
