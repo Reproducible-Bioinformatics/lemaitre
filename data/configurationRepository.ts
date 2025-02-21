@@ -101,7 +101,7 @@ export interface Toolbox {
 
 async function parse_xml(filename: string): Promise<Configuration> {
   const text_file = await Deno.readTextFile(filename).catch((error) => {
-    throw error;
+    console.log(error);
   });
   return parse(text_file) as Configuration;
 }
