@@ -10,9 +10,6 @@ export const TOOL_CONF = resolve(
     "/srv/galaxy/server/tools/custom/tool_conf.xml",
 );
 
-export const COMMAND_PIPE = resolve(
-  Deno.env.get("COMMAND_PIPE") ||
-    "/tmp/pipe",
-);
+export const COMMAND_PIPE = Deno.env.get("COMMAND_PIPE") || "";
 
 export const GIT_REVISION = Deno.env.get("DENO_DEPLOYMENT_ID") || "unknown";

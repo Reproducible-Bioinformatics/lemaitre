@@ -5,6 +5,7 @@ export enum Commands {
 }
 
 export const namedPipe = () => {
+  if (COMMAND_PIPE === "") return { send: async () => {} };
   const ctrl = pipeWriter(COMMAND_PIPE);
   const send = async (command: Commands) => {
     await ctrl.writeToPipe(command);
