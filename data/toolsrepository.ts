@@ -22,9 +22,7 @@ export const toolRepository: ToolRepository = {
 async function readDirectory(directory: string): Promise<Tool[]> {
   const tools: Tool[] = [];
   for await (const dirEntry of Deno.readDir(directory)) {
-    if (
-      dirEntry.isFile && isXML(dirEntry.name)
-    ) {
+    if (dirEntry.isFile && isXML(dirEntry.name)) {
       tools.push({ name: dirEntry.name });
     }
   }

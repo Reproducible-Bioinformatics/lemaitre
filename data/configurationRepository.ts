@@ -47,12 +47,15 @@ export const configurationRepository = (
   ): Configuration {
     const customSection: SectionEntity = generateSection(toolList);
 
+    configuration.toolbox.monitor = "true";
+
     if (!Array.isArray(configuration.toolbox.section)) {
       configuration.toolbox.section = [];
     }
 
-    configuration.toolbox.section = (configuration.toolbox.section ?? [])
-      .filter((item) => item["@id"] !== customSection["@id"]);
+    configuration.toolbox.section = (
+      configuration.toolbox.section ?? []
+    ).filter((item) => item["@id"] !== customSection["@id"]);
 
     configuration.toolbox.section.push(customSection);
     return configuration;
@@ -66,11 +69,12 @@ export const configurationRepository = (
     return {
       "@id": id,
       "@name": name,
-      tool: toolList.length > 0
-        ? toolList.map((tool) => ({
-          "@file": join(TOOL_DIR, tool.name),
-        }))
-        : undefined,
+      tool:
+        toolList.length > 0
+          ? toolList.map((tool) => ({
+              "@file": join(TOOL_DIR, tool.name),
+            }))
+          : undefined,
     };
   }
 
@@ -78,10 +82,7 @@ export const configurationRepository = (
     update: async () => {
       const xmldoc = await configurationManager.read();
       const toolList = await toolRepository.list();
-      const updatedConfig = updateConfiguration(
-        toolList,
-        xmldoc,
-      );
+      const updatedConfig = updateConfiguration(toolList, xmldoc);
       await configurationManager.write(updatedConfig);
     },
   };
@@ -93,7 +94,7 @@ export interface Configuration extends xml_document {
 
 export interface Toolbox {
   monitor: string;
-  section?: (SectionEntity)[] | null;
+  section?: SectionEntity[] | null;
 }
 
 async function parse_xml(filename: string): Promise<Configuration> {

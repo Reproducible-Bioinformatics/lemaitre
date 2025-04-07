@@ -9,9 +9,7 @@ export default async function Home() {
         Lemaître is a web portal to upload tools into your Galaxy installation.
       </main>
       <section className="-mx-2 bg-slate-100 px-2 py-2 border-slate-400 border rounded-lg flex flex-col gap-4">
-        <h2 className="text-xl font-bold">
-          Upload tool
-        </h2>
+        <h2 className="text-xl font-bold">Upload tool</h2>
         <form
           method="POST"
           action="/api/upload/"
@@ -25,9 +23,7 @@ export default async function Home() {
         </form>
       </section>
       <section className="flex flex-col gap-4">
-        <h2 className="text-xl font-bold">
-          Installed Tools
-        </h2>
+        <h2 className="text-xl font-bold">Installed Tools</h2>
         <Filelist tools={tools} />
       </section>
     </div>

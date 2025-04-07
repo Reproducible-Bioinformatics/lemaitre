@@ -14,12 +14,15 @@ export const handler: Handlers = {
       fileConfigurationManager(TOOL_CONF),
     );
     const { name } = ctx.params;
-    await toolRepository.delete(name).catch(() => {
-      return new Response("", { status: 404 });
-    }).then(async () => {
-      cfgRepository.update();
-      await namedPipe().send(Commands.restart);
-    });
+    await toolRepository
+      .delete(name)
+      .catch(() => {
+        return new Response("", { status: 404 });
+      })
+      .then(async () => {
+        cfgRepository.update();
+        await namedPipe().send(Commands.restart);
+      });
     return new Response(JSON.stringify(""), { status: 200 });
   },
 };
