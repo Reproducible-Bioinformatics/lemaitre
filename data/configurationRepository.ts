@@ -47,7 +47,7 @@ export const configurationRepository = (
   ): Configuration {
     const customSection: SectionEntity = generateSection(toolList);
 
-    configuration.toolbox.monitor = "true";
+    configuration.toolbox["@monitor"] = "true";
 
     if (!Array.isArray(configuration.toolbox.section)) {
       configuration.toolbox.section = [];
@@ -93,7 +93,7 @@ export interface Configuration extends xml_document {
 }
 
 export interface Toolbox {
-  monitor: string;
+  "@monitor": string;
   section?: SectionEntity[] | null;
 }
 
