@@ -89,6 +89,8 @@ export const configurationRepository = (
 };
 
 export interface Configuration extends xml_document {
+  "@version": "1.0";
+  "@encoding": "UTF-8";
   toolbox: Toolbox;
 }
 
